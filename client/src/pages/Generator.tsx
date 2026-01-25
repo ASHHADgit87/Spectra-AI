@@ -22,7 +22,7 @@ const Generator = () => {
       }
     }
   }
-  const handleGenerate = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
   }
