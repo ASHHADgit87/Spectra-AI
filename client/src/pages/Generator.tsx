@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Title from "../components/Title"
 import UploadZone from "../components/UploadZone"
+import { p } from "framer-motion/client";
 
 
 const Generator = () => {
@@ -21,14 +22,19 @@ const Generator = () => {
       }
     }
   }
+  const handleGenerate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+  }
   return (
     <div className="min-h-screen text-white p-6 md:p-12 mt-28">
-      <form className="max-w-4xl mx-auto mb-40">
+      <form onSubmit={handleGenerate} className="max-w-4xl mx-auto mb-40">
           <Title heading="Generate Contextual Image" description="Upload An Image Of Person And Product Images To Generate Stunning UGC, Short-term Videos And Commercial Reels."/>
           <div className="flex gap-20 max-sm:flex-col items-start justify-between">
             {/* left col */}
             <div className="flex flex-col w-full sm:max-w-60 gap-8 mt-8 mb-12">
-              <UploadZone label="Upload Product Image" file={} onClear={() => {}} onChange={(e) => {}}/>
+              <UploadZone label="Upload Product Image" file={productImage} onClear={() => setProductImage(null)} onChange={(e) => handleFileChange(e,'product')}/>
+                <UploadZone label="Upload Model Image" file={modelImage} onClear={() => setModelImage(null)} onChange={(e) => handleFileChange(e,'model')}/>
             </div>
             {/* Right col */}
             <div>
