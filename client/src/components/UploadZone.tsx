@@ -30,7 +30,7 @@ const UploadZone = ({label,file,onClear,onChange}: UploadZoneProps) => {
             <p className="text-sm text-gray-400 text-center max-w-[200px]">
                 Drag & Drop or Click To Upload
             </p>
-            <input type="file" accept="image/*" onChange={onChange} className="absolute inset-0 w-full h-fullopacity-0 cursor-pointer"/>
+            <input type="file" accept="image/*" onChange={onChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
             </>
         )}
       </div>
