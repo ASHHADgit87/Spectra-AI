@@ -47,7 +47,7 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
               </div>
               <div className='text-right'>
                  <div className='mt-2 flex flex-col items-end gap-1'>
-                  <span>Aspect: {gen.aspectRatio}</span>
+                  <span className='text-xs px-2 py-1 bg-white/5 rounded-full'>Aspect: {gen.aspectRatio}</span>
                  </div>
               </div>
            </div>
