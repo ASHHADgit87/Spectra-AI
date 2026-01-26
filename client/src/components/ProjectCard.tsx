@@ -58,6 +58,11 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
                 <div className='text-sm text-gray-300 bg-white/3 p-2 rounded-md wrap-break-word'>{gen.productDescription}</div>
               </div>
             )}
+            {gen.userPrompt && (
+              <div className='mt-3'>
+                <div className='text-xs text-gray-300 '>{gen.userPrompt}</div>
+              </div>
+            )}
            </div>
      </div>
 
