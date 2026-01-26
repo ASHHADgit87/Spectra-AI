@@ -26,7 +26,7 @@ return loading ? (
       <div className="max-w-6xl mx-auto">
         <header className="mb-12">
           <h1 className="text-3xl md:text-4xl font-semibold mb-4">Community</h1>
-          <p className="text-gray-400">Explore The Creation Of Other Using Spectra-AI</p>
+          <p className="text-gray-400">Explore The Creation Of Others Using Spectra-AI</p>
         </header>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
           {projects.map((project) => (
