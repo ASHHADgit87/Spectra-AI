@@ -1,7 +1,7 @@
 import { use, useEffect, useState } from "react";
 import type { Project } from "../types";
 import { dummyGenerations } from "../assets/assets";
-import { ImageIcon, Loader2Icon, RefreshCwIcon } from "lucide-react";
+import { ImageIcon, Loader2Icon, RefreshCwIcon, VideoIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { GhostButton } from "../components/Buttons";
 
@@ -56,6 +56,11 @@ const Result = () => {
                       <a href={project.generatedImage} download>
                         <GhostButton disabled={!project.generatedImage} className="w-full justify-center rounded-md py-3 disabled:opacity-50 disabled:cursor-not-allowed">
                           <ImageIcon className="size-4.5"/>Download Image
+                        </GhostButton>
+                      </a>
+                      <a href={project.generatedVideo} download>
+                        <GhostButton disabled={!project.generatedVideo} className="w-full justify-center rounded-md py-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                          <VideoIcon className="size-4.5"/>Download Video
                         </GhostButton>
                       </a>
                     </div>
