@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Project } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { EllipsisIcon, ImageIcon, Loader2Icon, PlaySquareIcon, Share2Icon } from 'lucide-react';
+import { EllipsisIcon, ImageIcon, Loader2Icon, PlaySquareIcon, Share2Icon, Trash2Icon } from 'lucide-react';
 
 const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,setGenerations:React.Dispatch<React.SetStateAction<Project[]>>,forCommunity?:boolean}) => {
     const navigate = useNavigate();
@@ -53,6 +53,9 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
                  </button>
                    
                  }
+                 <button onClick={()=>handleDelete(gen.id)} className='w-full flex gap-2 items-center px-4 py-2 hover:bg-red-950/10 text-red-400 cursor-pointer'>
+                  <Trash2Icon size={14}/> Delete
+                 </button>
 
               </ul>
            </div>
