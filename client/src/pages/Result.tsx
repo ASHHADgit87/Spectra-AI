@@ -66,8 +66,14 @@ const Result = () => {
                     </div>
                   </div>  
                   {/*generate video button */}
-                  <div>
-
+                  <div className="glass-panel p-6 rounded-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                      <VideoIcon className="size-24"/>
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">
+                      Video Magic
+                    </h3>
+                    <p className="text-gray-400 text-sm mb-6">Turn This Static Image Into A Dynamic Visual using Spectra AI</p>
                   </div>
              </div>
            </div>
