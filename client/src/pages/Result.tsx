@@ -31,6 +31,16 @@ const Result = () => {
            <p className="max-sm:hidden">New Generation</p>
            </Link>
            </header>
+           <div className="grid lg:grid-cols-3 gap-8">
+             {/*main result */}
+             <div>
+              
+             </div>
+             {/*sidebar actions */}
+             <div>
+
+             </div>
+           </div>
       </div>
     </div>
   )
