@@ -39,7 +39,7 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
               <ul className={`text-xs ${menuOpen ? 'block' : 'hidden'} overflow-hidden right-0 peer-focus:block hover:block w-40 bg-black/50 backdrop-blur text-white border border-gray-500/50 rounded-lg shadow-md mt-2 py-1 z-10`}>
                  {gen.generatedImage && 
                    <a href='#' download className='flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer'>
-                    <ImageIcon/>
+                    <ImageIcon size={14}/> Download Image
                    </a>
                  }
               </ul>
