@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Project } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { EllipsisIcon, ImageIcon, Loader2Icon } from 'lucide-react';
+import { EllipsisIcon, ImageIcon, Loader2Icon, PlaySquareIcon, Share2Icon } from 'lucide-react';
 
 const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,setGenerations:React.Dispatch<React.SetStateAction<Project[]>>,forCommunity?:boolean}) => {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
         )}    
        </div>
        {!forCommunity && (
-         <div className='absolute right-3 top-3 sm:opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
+         <div onMouseDownCapture={()=>setMenuOpen(true)} onMouseLeave={()=>setMenuOpen(false)} className='absolute right-3 top-3 sm:opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
            <div className='absolute top-3 right-3'>
               <EllipsisIcon className='ml-auto bg-black/10 size-7 p-1 rounded-full'/>
            </div>
@@ -42,6 +42,18 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
                     <ImageIcon size={14}/> Download Image
                    </a>
                  }
+                 {gen.generatedVideo && 
+                   <a href='#' download className='flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer'>
+                    <PlaySquareIcon size={14}/> Download Video
+                   </a>
+                 }
+                 {(gen.generatedVideo || gen.generatedImage) && 
+                 <button onClick={()=>navigator.share({url:gen.generatedVideo || gen.generatedImage, title:gen.productName, text: gen.productDescription})} className='w-full flex gap-2 items-center px-4 py-2 hover:bg-black/10 cursor-pointer'>
+                      <Share2Icon size={14}/> Share
+                 </button>
+                   
+                 }
+
               </ul>
            </div>
          </div>
