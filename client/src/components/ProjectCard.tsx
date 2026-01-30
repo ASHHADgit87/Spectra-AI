@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { Project } from '../types'
 import { useNavigate } from 'react-router-dom'
-import { Loader2Icon } from 'lucide-react';
+import { EllipsisIcon, Loader2Icon } from 'lucide-react';
 
 const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,setGenerations:React.Dispatch<React.SetStateAction<Project[]>>,forCommunity?:boolean}) => {
     const navigate = useNavigate();
@@ -30,6 +30,13 @@ const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,se
             <span className='text-xs px-2 py-1 bg-green-600/30 rounded-full'>Published</span>
         )}    
        </div>
+       {!forCommunity && (
+         <div className='absolute right-3 top-3 sm:opacity-0 group-hover:opacity-100 transition flex items-center gap-2'>
+           <div className='absolute top-3 right-3'>
+              <EllipsisIcon className='ml-auto bg-black/10 size-7 p-1 rounded-full'/>
+           </div>
+         </div>
+       )}
        <div className='absolute right-3 bottom-3'>
           <img src={gen.uploadedImages[0]} alt='product' className='w-16 h-16 object-cover rounded-full animate-float'/>
           <img src={gen.uploadedImages[1]} alt='model' className='w-16 h-16 object-cover rounded-full animate-float -ml-8' style={{animationDelay: '3s'}}/>
