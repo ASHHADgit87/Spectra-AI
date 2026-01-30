@@ -25,7 +25,7 @@ const Result = () => {
     <div className="min-h-screen text-white p-6 md:p-12 mt-20">
       <div className="max-w-6xl mx-auto">
            <header className="flex justify-between items-center mb-8">
-            <h1 className="text-2xl md:text-3xl font -medium">Generation Result</h1>
+            <h1 className="text-2xl md:text-3xl font-medium">Generation Result</h1>
            <Link to='/generate' className="btn-secondary text-sm flex items-center gap-2">
            <RefreshCwIcon className="w-4 h-4"/>
            <p className="max-sm:hidden">New Generation</p>
@@ -33,8 +33,16 @@ const Result = () => {
            </header>
            <div className="grid lg:grid-cols-3 gap-8">
              {/*main result */}
-             <div>
-              
+             <div className="lg:col-span-2 space-y-6">
+              <div className="glass-panel inline-block p-2 rounded-2xl">
+                <div className={`${project?.aspectRatio === '9:16' ? 'aspect-9/16' : 'aspect-video'} sm:max-h-200 overflow-hidden rounded-xl bg-gray-900 relative`}>
+                  {project?.generatedVideo ? (
+                    <video src={project.generatedVideo} controls autoPlay loop className="w-full h-full object-cover"/>
+                  ):(
+                    <img src={project.generatedImage} alt="Generated Result" className="w-full h-full object-cover"/>
+                  )}
+                </div>
+              </div>
              </div>
              {/*sidebar actions */}
              <div>
