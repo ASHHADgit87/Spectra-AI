@@ -6,6 +6,16 @@ import { EllipsisIcon, ImageIcon, Loader2Icon, PlaySquareIcon, Share2Icon, Trash
 const ProjectCard = ({gen,setGenerations,forCommunity = false} : {gen:Project,setGenerations:React.Dispatch<React.SetStateAction<Project[]>>,forCommunity?:boolean}) => {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
+    const handleDelete = async (id: string) => {
+      const confirm = window.confirm('Are you sure you want to delete this generation?');
+      if (!confirm) {
+        return;
+      } 
+      console.log(id);
+    }
+    const togglePublish = async (projectId: string) => {
+      console.log(projectId);
+    }
   return (
     <div key={gen.id} className='mb-4 break-inside-avoid'>
      <div className='bg-white/5 border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition group'>
