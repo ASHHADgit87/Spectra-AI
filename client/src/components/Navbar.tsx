@@ -1,11 +1,14 @@
 import { MenuIcon, XIcon } from 'lucide-react';
-import { PrimaryButton } from './Buttons';
+import { GhostButton, PrimaryButton } from './Buttons';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { assets } from '../assets/assets';
 import { Link } from 'react-router-dom';
+import { useClerk, useUser } from '@clerk/clerk-react';
 
 export default function Navbar() {
+    const {user} = useUser();
+    const {openSignIn,openSignUp} = useClerk();
     const [isOpen, setIsOpen] = useState(false);
 
     const navLinks = [
@@ -34,13 +37,21 @@ export default function Navbar() {
                         </Link>
                     ))}
                 </div>
-
-                <div className='hidden md:flex items-center gap-3'>
-                    <button className='text-sm font-medium text-gray-300 hover:text-white transition max-sm:hidden'>
+                {!user ? (
+                   <div className='hidden md:flex items-center gap-3'>
+                    <button onClick={()=> openSignIn()} className='text-sm font-medium text-gray-300 hover:text-white transition max-sm:hidden'>
                         Sign in
                     </button>
-                    <PrimaryButton className='max-sm:text-xs hidden sm:inline-block'>Get Started</PrimaryButton>
+                    <PrimaryButton onClick={()=> openSignUp()} className='max-sm:text-xs hidden sm:inline-block'>Get Started</PrimaryButton>
                 </div>
+                ):(
+                    <div className='flex gap-2'>
+                      <GhostButton className='border-none text-gray-300 sm:py-1.5'>
+                        Credits:
+                      </GhostButton>
+                    </div>
+                )}
+                
 
                 <button onClick={() => setIsOpen(!isOpen)} className='md:hidden'>
                     <MenuIcon className='size-6' />
