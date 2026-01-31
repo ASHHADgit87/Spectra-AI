@@ -62,9 +62,9 @@ export default function Navbar() {
                 )}
                 
 
-                <button onClick={() => setIsOpen(!isOpen)} className='md:hidden'>
+                {!user && (<button onClick={() => setIsOpen(!isOpen)} className='md:hidden'>
                     <MenuIcon className='size-6' />
-                </button>
+                </button>)}
             </div>
             <div className={`flex flex-col items-center justify-center gap-6 text-lg font-medium fixed inset-0 bg-black/40 backdrop-blur-md z-50 transition-all duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
                 {navLinks.map((link) => (
@@ -73,10 +73,10 @@ export default function Navbar() {
                     </a>
                 ))}
 
-                <button onClick={() => setIsOpen(false)} className='font-medium text-gray-300 hover:text-white transition'>
+                <button onClick={() => {setIsOpen(false); openSignIn()}} className='font-medium text-gray-300 hover:text-white transition'>
                     Sign in
                 </button>
-                <PrimaryButton onClick={() => setIsOpen(false)}>Get Started</PrimaryButton>
+                <PrimaryButton onClick={() => {setIsOpen(false); openSignUp()}}>Get Started</PrimaryButton>
 
                 <button
                     onClick={() => setIsOpen(false)}
