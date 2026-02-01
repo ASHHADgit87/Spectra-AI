@@ -28,3 +28,4 @@ Thumbs.db
 
 # Misc
 *.tgz
+server/generated/prisma
