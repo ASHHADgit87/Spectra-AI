@@ -1,8 +1,16 @@
 import { Request,Response } from "express";
 import * as Sentry from "@sentry/node";
+import { prisma } from "../configs/prisma.js";
 export const getUserCredits = async (req: Request, res: Response) => {
   try {
-    
+    const {userId} = req.auth();
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized User" });
+    }
+    const user = await prisma.user.findUnique({
+      where: {id: userId }
+    });
+    res.json({ credits: user?.credits });
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
@@ -24,7 +32,7 @@ export const getProjectById = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.code || error.message });
   }
 };
-export const toggleProjectPublic = async (req: Request, res: Response) => {
+export const toggleProject = async (req: Request, res: Response) => {
   try {
     
   } catch (error: any) {
