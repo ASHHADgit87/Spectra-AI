@@ -59,7 +59,9 @@ const clerkWebhooks = async (req: Request, res: Response) => {
             default:
                 break;
         }
-    } catch (error) {
-        
+        res.json({message: "Webhook Received :" + type})
+    } catch (error: any) {
+        res.status(500).json({message: error.message})
     }
 }
+export default clerkWebhooks
