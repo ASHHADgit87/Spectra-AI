@@ -6,6 +6,17 @@ export const createProject = async (req: Request, res: Response) => {
     const {userId} = req.auth();
     let isCreditDeducted = false;
     const {name = 'New Project', aspectRatio , userPrompt, productName, productDescription, targetLength = 5} = req.body;
+    const images: any = req.files;
+    if(images.length < 2 || !productName){
+        return res.status(400).json({ message: "Please Upload Atleast 2 Images" });
+    }
+    const user = await prisma.user.findUnique({where: {id: userId}});
+    if(!user || user.credits < 5){
+        return res.status(401).json({ message: "Not Enough Credits" });
+    }else{
+        await prisma.user.update({where: {id: userId}, data: {credits: {decrement: 5}}}).then(()=>{isCreditDeducted = true})
+        
+    }
   try {
    
   } catch (error: any) {
