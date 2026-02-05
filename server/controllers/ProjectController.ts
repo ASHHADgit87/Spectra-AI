@@ -92,6 +92,9 @@ export const createProject = async (req: Request, res: Response) => {
     }
     const img1base64 = loadImage(images[0].path, images[0].mimetype);
     const img2base64 = loadImage(images[1].path, images[1].mimetype); 
+    const prompt = {
+        text: `Combine the person and product into a realistic photo. Make the person naturally hold or usethe product. Match lighting, shadows, scale and perspective.`
+    }
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
