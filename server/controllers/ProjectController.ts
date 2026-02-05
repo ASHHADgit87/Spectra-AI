@@ -4,6 +4,16 @@ import { prisma } from "../configs/prisma.js";
 import { v2 as cloudinary } from "cloudinary";
 import { parse } from "node:path";
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from "@google/genai";
+import fs from "fs";
+import path from "path";
+const loadImage = (path: string,mimeType: string) => {
+    return {
+        inlineData: {
+            data: fs.readFileSync(path).toString("base64"),
+            mimeType
+        }
+    }
+}
 export const createProject = async (req: Request, res: Response) => {
   let tempProjectId: string;
   const { userId } = req.auth();
@@ -80,6 +90,8 @@ export const createProject = async (req: Request, res: Response) => {
             }
         ]
     }
+    const img1base64 = loadImage(images[0].path, images[0].mimetype);
+    const img2base64 = loadImage(images[1].path, images[1].mimetype); 
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
