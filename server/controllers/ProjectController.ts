@@ -252,7 +252,12 @@ The final result should feel immersive, emotionally engaging, and more realistic
             operation : operation
         });
     }
-    
+    const fileName = `${userId}-${Date.now()}.mp4`;
+    const filePath = path.join('videos', fileName);
+    fs.mkdirSync('videos', { recursive: true });
+    if(!operation.response.generatedVideos){
+        throw new Error(operation.response.raiMediaFilteredReadons[0]);
+    }
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
