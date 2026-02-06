@@ -193,6 +193,16 @@ export const createVideo = async (req: Request, res: Response) => {
     if(project.generatedVideo){
         return res.status(404).json({ message: "Video Already Generated" });
     }
+    await prisma.project.update({
+        where: {
+            id: projectId
+        },
+        data: {
+            isGenerating: true
+        }
+    })
+    const prompt = `Make the person showcase the product which is ${project.productName} ${project.productDescription && `and Product Description : ${project.productDescription}`}`;
+    const model = 'veo-3.1-generate-preview'
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
