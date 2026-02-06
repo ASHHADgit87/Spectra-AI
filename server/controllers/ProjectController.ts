@@ -93,7 +93,18 @@ export const createProject = async (req: Request, res: Response) => {
     const img1base64 = loadImage(images[0].path, images[0].mimetype);
     const img2base64 = loadImage(images[1].path, images[1].mimetype); 
     const prompt = {
-        text: `Combine the person and product into a realistic photo. Make the person naturally hold or usethe product. Match lighting, shadows, scale and perspective.`
+        text: `Create a hyper-realistic, photorealistic image by seamlessly integrating the person and the product into a single natural scene.
+The person should naturally hold, interact with, or use the product in a believable way.
+
+Ensure perfect consistency in lighting, shadows, reflections, scale, proportions, and perspective so the image feels indistinguishable from a real professional photoshoot.
+
+Place the subject in high-end professional studio lighting, with soft yet detailed light shaping the face, hands, and product.
+
+The final output must be e-commerce quality, ultra-sharp, clean, and visually stunning — suitable for premium brand marketing, product pages, and advertisements.
+
+The result should feel more real than reality, polished, immersive, and instantly captivating.
+
+User prompt: ${userPrompt}`,
     }
   } catch (error: any) {
     Sentry.captureException(error);
