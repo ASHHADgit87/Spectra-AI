@@ -43,8 +43,8 @@ const Generator = () => {
     try {
       setIsGenerating(true);
       const fromData = new FormData();
-      fromData.append('Images',productImage);
-      fromData.append('Images',modelImage);
+      fromData.append('images',productImage);
+      fromData.append('images',modelImage);
       fromData.append('name',name);
       fromData.append('productName',productName);
       fromData.append('productDescription',productDescription);
