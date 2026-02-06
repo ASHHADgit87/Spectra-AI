@@ -46,7 +46,7 @@ export default function Footer() {
                 </div>
 
                 <p className="py-4 text-center text-sm text-gray-400">
-                    Copyright © 2025 - {new Date().getFullYear()} {' '}
+                    Copyright © 2026 - {new Date().getFullYear()} {' '}
                      Spectra AI - Muhammad Ashhadullah Zaheer. All rights reserved
                 </p>
             </div>
