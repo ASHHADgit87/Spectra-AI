@@ -3,22 +3,31 @@ import { GhostButton, PrimaryButton } from './Buttons';
 import { use, useState } from 'react';
 import { motion } from 'framer-motion';
 import { assets } from '../assets/assets';
-import { Link, useNavigate } from 'react-router-dom';
-import { useClerk, useUser, UserButton } from '@clerk/clerk-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useClerk, useUser, UserButton, useAuth } from '@clerk/clerk-react';
 
 export default function Navbar() {
     const navigate = useNavigate();
     const {user} = useUser();
     const {openSignIn,openSignUp} = useClerk();
     const [isOpen, setIsOpen] = useState(false);
-
+    const [credits,setCredits] = useState(0);
+    const {pathname} = useLocation();
+    const {getToken} = useAuth()
     const navLinks = [
         { name: 'Home', href: '/#' },
         { name: 'Create', href: '/generate' },
         { name: 'Community', href: '/community' },
         { name: 'Plans', href: '/plans' },
     ];
-
+    const getUserCredits = async () => {
+        try {
+            const token = await getToken();
+            
+        } catch (error) {
+            
+        }
+    }
     return (
         <motion.nav className='fixed top-5 left-0 right-0 z-50 px-4'
             initial={{ y: -100, opacity: 0 }}
