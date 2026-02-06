@@ -6,6 +6,7 @@ import { parse } from "node:path";
 import { GenerateContentConfig, HarmBlockThreshold, HarmCategory } from "@google/genai";
 import fs from "fs";
 import path from "path";
+import ai from "../configs/ai.js";
 const loadImage = (path: string,mimeType: string) => {
     return {
         inlineData: {
@@ -106,6 +107,26 @@ The result should feel more real than reality, polished, immersive, and instantl
 
 User prompt: ${userPrompt}`,
     }
+    const response: any = await ai.models.generateContent({
+        model,
+        contents: [img1base64, img2base64, prompt],
+        config: generationConfig,
+    });
+    if(!response?.candidates?.[0]?.content?.parts){
+        throw new Error("Unexpected Response");
+    }
+    const parts = response.candidates[0].content.parts;
+    let finalBuffer: Buffer | null = null;
+    for(const part of parts){
+        if(part.inlineData){
+            finalBuffer = Buffer.from(part.inlineData.data, 'base64');
+            
+        }
+    }
+    if(!finalBuffer){
+        throw new Error("Image Generation Failed");
+    }
+    const base64Image = `data:image/png;base64,${finalBuffer.toString('base64')}`;
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
