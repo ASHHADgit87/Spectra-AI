@@ -256,8 +256,24 @@ The final result should feel immersive, emotionally engaging, and more realistic
     const filePath = path.join('videos', fileName);
     fs.mkdirSync('videos', { recursive: true });
     if(!operation.response.generatedVideos){
-        throw new Error(operation.response.raiMediaFilteredReadons[0]);
+        throw new Error(operation.response.raiMediaFilteredReasons[0]);
     }
+    await ai.files.download({
+        file: operation.response.generatedVideos[0].video,
+        downloadPath: filePath
+    })
+    const uploadResult = await cloudinary.uploader.upload(filePath, {
+      resource_type: "video",
+    });
+    await prisma.project.update({
+      where: {
+        id: project.id,
+      },
+      data: {
+        generatedVideo: uploadResult.secure_url,
+        isGenerating: false,
+      },
+    })
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
