@@ -127,7 +127,35 @@ User prompt: ${userPrompt}`,
         throw new Error("Image Generation Failed");
     }
     const base64Image = `data:image/png;base64,${finalBuffer.toString('base64')}`;
+    const uploadResult = await cloudinary.uploader.upload(base64Image, {
+      resource_type: "image",
+    })
+    await prisma.project.update({
+        where: {
+            id: project.id
+        },
+        data: {
+            isGenerating: false,
+            generatedImage: uploadResult.secure_url
+        }
+    })
+    res.json({projectId: project.id});
   } catch (error: any) {
+    if(tempProjectId!){
+        await prisma.project.update({
+            where: {
+                id: tempProjectId
+            },
+            data: {
+                isGenerating: false,
+                error: error.message
+            }
+        })
+    }
+    if(isCreditDeducted){
+        await prisma.user
+        .update({ where: { id: userId }, data: { credits: { increment: 5 } } });
+    }
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
   }
