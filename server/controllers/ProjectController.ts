@@ -300,6 +300,15 @@ The final result should feel immersive, emotionally engaging, and more realistic
 };
 export const getAllPublishedProjects = async (req: Request, res: Response) => {
   try {
+    const projects = await prisma.project.findMany({
+      where: {
+        isPublished: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+    res.json({ projects });
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
@@ -307,6 +316,24 @@ export const getAllPublishedProjects = async (req: Request, res: Response) => {
 };
 export const deleteProject = async (req: Request, res: Response) => {
   try {
+    const {userId} = req.auth();
+    const {projectId} = req.params;
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId as string,
+        userId
+      }
+    })
+    if(!project){
+      return res.status(404).json({ message: "Project Not Found" });
+    }
+    await prisma.project.delete({
+      where: {
+        id: projectId as string,
+        
+      }
+    })
+    res.json({ message: "Project Deleted Successfully" });
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
