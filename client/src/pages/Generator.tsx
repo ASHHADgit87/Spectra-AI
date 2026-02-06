@@ -4,9 +4,16 @@ import UploadZone from "../components/UploadZone"
 import { p } from "framer-motion/client";
 import { Loader2Icon, RectangleHorizontalIcon, RectangleVerticalIcon, Wand2Icon } from "lucide-react";
 import { PrimaryButton } from "../components/Buttons";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../configs/axios";
 
 
 const Generator = () => {
+  const {user} = useUser();
+  const {getToken} = useAuth()
+  const navigate = useNavigate()
   const [name,setName] = useState('');
   const [productName,setProductName] = useState('');
   const [productDescription,setProductDescription] = useState('');
@@ -26,6 +33,32 @@ const Generator = () => {
   }
   const handleGenerate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(!user){
+      return toast('Please Login To Generate')
+    }
+    if(!productImage || !modelImage || !name || !productName || !aspectRatio){
+      return toast('Please Fill All The Fields')
+    }
+
+    try {
+      setIsGenerating(true);
+      const fromData = new FormData();
+      fromData.append('Images',productImage);
+      fromData.append('Images',modelImage);
+      fromData.append('name',name);
+      fromData.append('productName',productName);
+      fromData.append('productDescription',productDescription);
+      fromData.append('aspectRatio',aspectRatio);
+      fromData.append('userPrompt',userPrompt);
+      const token = await getToken();
+      const {data} = await api.post('/api/project/create',fromData,{headers:{Authorization:`Bearer ${token}`}})
+      toast.success(data.message)
+      navigate('/result/' + data.projectId)
+    } catch (error: any) {
+      setIsGenerating(false);
+      console.log(error);
+      toast.error(error?.response?.data?.message || error.message)
+    }
     
   }
   return (
