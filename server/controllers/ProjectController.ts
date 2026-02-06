@@ -161,7 +161,38 @@ User prompt: ${userPrompt}`,
   }
 };
 export const createVideo = async (req: Request, res: Response) => {
+     const { userId } = req.auth();
+     const {projectId} = req.body;
+     let isCreditDeducted = false;
+     const user = await prisma.user.findUnique({
+         where: {
+             id: userId
+         }
+     })
+     if (!user || user.credits < 10) {
+    return res.status(401).json({ message: "Not Enough Credits" });
+  } 
+  await prisma.user
+      .update({ where: { id: userId }, data: { credits: { decrement: 10 } } })
+      .then(() => {
+        isCreditDeducted = true;
+      });
   try {
+    const project = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+        userId
+      },
+      include: {
+          user: true
+      }
+    })
+    if(!project || project.isGenerating){
+        return res.status(404).json({ message: "Project Is Still Generating" });
+    }
+    if(project.generatedVideo){
+        return res.status(404).json({ message: "Video Already Generated" });
+    }
   } catch (error: any) {
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
