@@ -1,10 +1,12 @@
 import { DollarSignIcon, FolderEditIcon, GalleryHorizontalEnd, MenuIcon, SparkleIcon, XIcon } from 'lucide-react';
 import { GhostButton, PrimaryButton } from './Buttons';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { assets } from '../assets/assets';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useClerk, useUser, UserButton, useAuth } from '@clerk/clerk-react';
+import api from '../configs/axios';
+import toast from 'react-hot-toast';
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -23,11 +25,18 @@ export default function Navbar() {
     const getUserCredits = async () => {
         try {
             const token = await getToken();
-            
-        } catch (error) {
-            
+            const {data} = await api.get('/api/user/credits',{headers:{Authorization:`Bearer ${token}`}})
+            setCredits(data.credits)
+        } catch (error: any) {
+            console.log(error);
+            toast.error(error?.response?.data?.message || error.message)
         }
     }
+    useEffect(() => {
+        if(user){
+            (async ()=> await getUserCredits())();
+        };
+    },[user, pathname])
     return (
         <motion.nav className='fixed top-5 left-0 right-0 z-50 px-4'
             initial={{ y: -100, opacity: 0 }}
@@ -57,7 +66,7 @@ export default function Navbar() {
                 ):(
                     <div className='flex gap-2'>
                       <GhostButton onClick={()=> navigate('/plans')} className='border-none text-gray-300 sm:py-1.5'>
-                        Credits:
+                        Credits: {credits}
                       </GhostButton>
                       <UserButton>
                         <UserButton.MenuItems>
