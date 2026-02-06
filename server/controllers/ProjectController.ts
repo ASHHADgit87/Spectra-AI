@@ -274,7 +274,26 @@ The final result should feel immersive, emotionally engaging, and more realistic
         isGenerating: false,
       },
     })
+    fs.unlinkSync(filePath);
+    res.json({message: 'Video Generation Completed', videoUrl: uploadResult.secure_url})
   } catch (error: any) {
+    
+      await prisma.project.update({
+        where: {
+          id: projectId,userId
+        },
+        data: {
+          isGenerating: false,
+          error: error.message,
+        },
+      });
+    
+    if (isCreditDeducted) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { credits: { increment: 10 } },
+      });
+    }
     Sentry.captureException(error);
     res.status(500).json({ message: error.code || error.message });
   }
