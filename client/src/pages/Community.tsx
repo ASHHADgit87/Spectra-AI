@@ -3,16 +3,22 @@ import type { Project } from "../types";
 import { dummyGenerations } from "../assets/assets";
 import { Loader2Icon } from "lucide-react";
 import ProjectCard from "../components/ProjectCard";
+import toast from "react-hot-toast";
+import api from "../configs/axios";
 
 
 const Community = () => {
   const [projects,setProjects] = useState<Project[]>([]);
   const [loading,setLoading] = useState(true);
   const fetchProjects = async () => {
-    setTimeout(() => {
-      setProjects(dummyGenerations);
+    try {
+      const {data} = await api.get('/api/project/published');
+      setProjects(data.projects);
       setLoading(false);
-    },3000);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || error.message)
+    }
   }
   useEffect(() => {
     fetchProjects();
